@@ -1,0 +1,62 @@
+<!--KendoUI数据源：本地数据源（JavaScript对象数组），或者远程数据源（XML, JSON, JSONP)-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+    	<div id="grid"></div>
+    	<div id="chart"></div>
+
+        <script>
+        	//本地数据源：JavaScript数组
+        	var economy = [ {
+			      year: 1977,
+			      salary: 1000
+			   }, {
+			      year: 1997,
+			      salary: 3000
+			   }, {
+			      year: 2017,
+			      salary: 6000
+			   }
+			];
+
+			//KendoUI组件绑定数据源
+			$("#grid").kendoGrid({
+			    dataSource: economy,
+			        columns: [
+			        {
+			            field: "year",
+			            title: "Year"
+			        },
+			        {
+			            field: "salary",
+			            title: "Salary",
+			            template: '#= kendo.toString(salary, "N0") #'
+			    }]
+			});
+
+			$("#chart").kendoChart({
+			    title: {
+			        text: "economy"
+			    },
+			    dataSource: new kendo.data.DataSource({
+			        data: economy
+			    }),
+			    series: [{
+			        type: "line",
+			        field: "salary",
+			        name: "average salary"
+			    }],
+			    categoryAxis: {
+			        field: "year"
+			    }
+			});
+		</script>
+    </body>
+</html>

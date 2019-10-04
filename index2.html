@@ -1,0 +1,86 @@
+<!--KendoUI Widgets-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <!--1.JQuery初始化KendoUI组件-->
+        <div>
+            <input id="autocomplete" />
+        </div>
+
+        <!--2.配置KendoUI组件-->
+        <div id="grid"></div>
+
+        <!--1.JQuery方法初始化-->
+        <script id='autocompletescript'>
+            $("#autocomplete").kendoAutoComplete({data:["Apples","Oranges"]});
+            <!--3.使用JQuery的data方法获取KendoUI组件的引用对象:data方法的参数为这种组件的名称-->
+            var autocomplete = $("#autocomplete").data("kendoAutoComplete");
+            <!--4.使用JQuery的value方法设置/获取KendoUI组件对象的值-->
+            autocomplete.value("Cherries");
+            var value = autocomplete.value();
+            alert(value);
+        </script>
+
+        <!--2.配置KendoUI组件-->
+        <script>
+            $("#grid").kendoGrid({
+              height: 200,
+              columns:[
+                  {
+                      field: "id",
+                      title: "ID"
+                  },
+                  {
+                      field: "name",
+                      title: "Name"
+                  }
+              ],
+              dataSource: {
+                  data: [
+                      {
+                          id: "1312687",
+                          name: "Freeya"
+                      },
+                      {
+                          id: "1312688",
+                          name: "April"
+                      }
+                  ]
+              }
+            });
+        </script>
+
+        <!--3.为KendoUI组件定义事件处理方法:方法1-->
+        <script>
+            function onchange1(e) {
+                <!--触发该事件的KendoUI组件方法2-->
+                var autocomplete = e.sender;
+                var value = autocomplete.value();
+                alert("onchange1:"+value); 
+            }
+            $("#autocomplete").kendoAutoComplete({
+                change: onchange1
+            });
+        </script>
+
+        <!--4.为KendoUI组件定义事件处理方法:方法2-->
+        <script>
+            function onchange2() {
+                <!--触发该事件的KendoUI组件方法2-->
+                var autocomplete = this;
+                var value = autocomplete.value();
+                alert("onchange2:"+value);
+            }
+            $("#autocomplete").kendoAutoComplete();
+            var autocomplete = $("#autocomplete").data("kendoAutoComplete");
+            autocomplete.bind("change", onchange2);
+        </script>
+    </body>
+</html>

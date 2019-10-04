@@ -1,0 +1,58 @@
+<!--KendoUI原型法创建对象-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <script>
+        	//模子
+            var person = kendo.Class.extend({
+			    name: 'Freeya',
+			    age: '30',
+			    isRich:false,
+			    sayHello: function() {
+			        alert("Hello! I'm " + this.name + ",I'm" + this.age);
+			    }
+		    });
+
+            //成员变量的初始值只在无自定义构造函数时有效。自定义init构造函数后，空参构造函数将不会为成员变量赋初始值
+			var copy1 = new person();
+			copy1.sayHello();
+		</script>
+
+		<script>
+			//模子
+            var person2 = kendo.Class.extend({
+			    name: 'Freeya',
+			    age: '30',
+			    isRich:false,
+			    <!--构造函数init-->
+			    init: function (name, age) {
+			        this.name = name;
+			        this.age = age;
+			    },
+			    sayHello: function() {
+			        alert("Hello! I'm " + this.name + ",I'm" + this.age);
+			    }
+		    });
+			var copy2 = new person2("April","50");
+			copy2.sayHello();
+        </script>
+
+        <script>
+        	//子类模子
+        	var sonperson = person.extend({
+			    name: 'Autumn',
+			    age: '10'
+			});
+
+			var son = new sonperson();
+			son.sayHello();
+        </script>
+    </body>
+</html>

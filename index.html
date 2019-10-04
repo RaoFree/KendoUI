@@ -1,0 +1,64 @@
+<!--初始化Data属性-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <div id="container1">
+            <!--1.JQuery方式初始化-->
+            <input id="jqueryinit" />
+        </div>
+        <div id="container2">
+            <!--2.data属性方式初始化(5个例子)-->
+                <!--2.1 值改变触发方法调用-->
+                <input data-role="dropdownlist" data-change="numerictextbox_change" />
+                <input data-role="autocomplete" data-source="{data:['One', 'Two']}" />
+                <input data-role="autocomplete" data-source="['One', 'Two']" />
+                <!--2.2 全局变量作为数据源-->
+                <input data-role="autocomplete" data-source="dataSource" />
+                <!--2.3 使用模版定义展现形式-->
+                <input data-role="autocomplete"
+                       data-source="[{firstName:'Fu', lastName: 'Rao'}, {firstName:'Free', lastName: 'Ya'}]"
+                       data-ignore-case="true"
+                       data-text-field="firstName"
+                       data-template="template" 
+                />
+        </div>
+
+        <!--1.JQuery方法初始化-->
+        <script id='jqueryinitscript'>
+            $(function () {
+                $("#jqueryinit").kendoDatePicker();
+            });
+        </script>
+
+        <!--2.1 值改变触发方法调用-->
+        <script id='trigger'>
+            function numerictextbox_change(e) {
+            };
+        </script>
+
+        <!--2.2 全局变量作为数据源-->
+        <script id='varasdatasource'>
+            var dataSource = new kendo.data.DataSource( {
+                data: [ "One", "Two" ]
+            });
+        </script>
+
+        <!--2.3 使用模版定义展现形式-->
+        <script id="template" type="text/x-kendo-template">
+            <span>#: firstName # #: lastName #</span>
+        </script>
+
+        <!--2.data属性方式初始化，声明数据源的相关脚本要放在init前-->
+        <script>
+            kendo.init($("#container1"));
+            kendo.init($("#container2"));
+        </script>
+    </body>
+</html>
