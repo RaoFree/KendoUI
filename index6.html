@@ -1,0 +1,31 @@
+<!--
+使用外部模版
+-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+    	<ul id="resul"></ul>
+
+    	<script id="mytemplate" type="text/x-kendo-template">
+    		#if(gender=="male"){#
+    			<li>#= name # is male</li>
+    		#}else{#
+    			<li>#= name # is female</li>
+    		#}#
+		</script>
+
+		<script type="text/javascript">
+	        data = [{name:"freeya",gender:"male"},{name:"april",gender:"female"}];
+	        var template = kendo.template($("#mytemplate").html());//将模版内容从<script>中抽取出来并编译
+			var res = kendo.render(template,data); //将模版与数据源绑定
+			$("#resul").html(res);
+		</script>
+    </body>
+</html>
