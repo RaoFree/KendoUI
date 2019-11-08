@@ -1,0 +1,76 @@
+<!--KendoUI数据绑定:attr绑定、checked绑定-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+		<!--
+			1.attr绑定:支持把ViewMode的属性或方法绑定到DOM元素的多个属性，如：hyperlink的herf和title属性，image元素的src或alt属性
+		-->
+		<img id="logo" data-bind="attr:{src:imageSource,alt:imageAlt}" />
+		<script>
+		var viewModel = kendo.observable({
+			imageSource: "https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=b339f649c7fc1e17e9b284632bf99d66/0dd7912397dda1445da42dedbab7d0a20df486c4.jpg",
+			imageAlt: "Kendo Logo"
+		});
+		kendo.bind($("#logo"), viewModel);
+		</script>
+		
+		<!--
+			2.多选框checked绑定:用于checkbox或radiobutton
+		-->
+		<div id="viewModel属性为true时，绑定的checkbox才会勾选">
+			<input type="checkbox" id="singlecheckbox" data-bind="checked:isChecked" />
+			<button id="chooseBox" type="button" data-bind="click:changecheckbox">ChooseBox</button>
+		<div>
+		<script>
+		var viewMode2 = kendo.observable({
+			isChecked: false,
+			changecheckbox: function(){
+				this.set("isChecked",true);
+			}
+		});
+		kendo.bind($("#singlecheckbox"), viewMode2);
+		kendo.bind($("#chooseBox"), viewMode2);
+		</script>
+		
+		<div id="viewModel属性的数组值中包含绑定的checkbox的value值时，这些checkbox才会勾选">
+			<input type="checkbox" class="color" value="Red" data-bind="checked:iscolorchecked" />Red
+			<input type="checkbox" class="color" value="Green" data-bind="checked:iscolorchecked" />Green
+			<input type="checkbox" class="color" value="Blue" data-bind="checked:iscolorchecked" />Blue
+			<button id="chooseall" type="button" data-bind="click:chooseall">ChooseAll</button>
+		<div>
+		<script>
+			var viewMode3 = kendo.observable({
+				iscolorchecked: ["Red"],
+				chooseall: function(){
+					this.set("iscolorchecked",["Red","Green","Blue"]);
+				}
+			});
+			kendo.bind($(".color"), viewMode3);
+			kendo.bind($("#chooseall"), viewMode3);
+		</script>
+		
+		<!--
+			3.单选框RadioButton绑定:viewModel属性值与绑定的RadioButton的value值相同时，该RadioButton才会勾选
+		-->
+		<input type="radio" value="male" class="gender" data-bind="checked: isgenderchecked" />male
+		<input type="radio" value="female" class="gender" data-bind="checked: isgenderchecked" />female
+		<button id="changegender" type="button" data-bind="click:changegender">ChangeGender</button>
+		<script>
+			var viewMode4 = kendo.observable({
+				isgenderchecked: "male",
+				changegender: function(){
+					this.set("isgenderchecked","female");
+				}
+			});
+			kendo.bind($(".gender"), viewMode4);
+			kendo.bind($("#changegender"), viewMode4);
+		</script>
+    </body>
+</html>

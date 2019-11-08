@@ -1,0 +1,98 @@
+<!--KendoUI数据绑定:click绑定、disable/enable绑定、invisible/visible绑定、style绑定-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+		<!--1.click绑定：使用preventDefault()终止某些DOM元素click时触发的缺省处理函数，如<a>跳转到href指定的页面或提交表单-->
+		<div>
+			<a href="http://github.com">Redirect</span>
+			<br>
+			<a href="http://github.com" class="redirect" data-bind="click:stopdefault">NotRedirect</span>
+		</div>
+		<script>
+			var viewModel1 = kendo.observable({
+				stopdefault: function(e) {
+					e.preventDefault();
+				}
+			});
+			kendo.bind($(".redirect"), viewModel1);
+		</script>
+		
+		<!--invisible绑定(可见性)：true/false-->
+		<br>
+		<div>
+			<span>占位符<span>
+			<span class="testinv" data-bind="visible:isVisible,text:visdesc"></span>
+			<span>占位符<span>
+		</div>
+		<!--
+			DOM元素CSS风格属性(style)绑定
+			格式：data-bind="style: {属性1: ModelView属性或值, 属性2: ModelView属性或值}"
+			例如style中的可见性属性：visibility(visible,hidden) display(block,none)
+		-->
+		<div>
+			<span>占位符<span>
+			<span class="testinv" data-bind="style:{display:isDisplay},text:disdesc">display(none,block)</span>
+			<span>占位符<span>
+		</div>
+		
+		<br>
+		<div>
+		<span class="spanbtn" data-bind="click: changeinv">ChangeInvisible</span>
+		</div>
+		<div>
+		<span class="spanbtn" data-bind="click: changedis">ChangeDisplay</span>
+		</div>
+		<script>
+			var viewModel2 = kendo.observable({
+				isVisible:false,
+				isDisplay:"none",
+				visdesc:"visibility(visible,hidden)",
+				disdesc:"display(block,none)",
+				changeinv: function() {
+					var flag=this.get("isVisible");
+					if(flag==true){
+						this.set("isVisible",false);
+					}else{
+						this.set("isVisible",true);
+					}
+				},
+				changedis: function() {
+					var flag=this.get("isDisplay");
+					if(flag=="block"){
+						this.set("isDisplay","none");
+					}else{
+						this.set("isDisplay","block");
+					}
+				}
+			});
+			kendo.bind($(".testinv"), viewModel2);
+			kendo.bind($(".spanbtn"), viewModel2);
+		</script>
+		
+		<!--disabled绑定(输入框可修改性，仅用于input、select、textarea标签)：true/false-->
+		<br>
+		<div id="testdisable">
+			<input type="text" data-bind="value:val,disabled:isDisabled" />
+			<button data-bind="click:changeDisabled">changeDisabled</button>
+		</div>
+		<script>
+			var viewMode3 = kendo.observable({
+				isDisabled: false,
+				val: "输入值",
+				changeDisabled: function(){
+					this.set("isDisabled", true);
+				}
+			});
+			kendo.bind($("#testdisable"), viewMode3);
+		</script>	
+    </body>
+	
+	
+</html>
