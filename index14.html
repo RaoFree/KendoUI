@@ -1,0 +1,63 @@
+<!--KendoUI数据绑定：source绑定-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+		<!--在父Dom元素中，使用script模板增加子Dom元素：
+			1.定义script模板 
+				<script id="" type="text/x-kendo-template">模板内容</script>
+			2.将script模板的id填入父Dom元素的data-template属性值中
+			3.定义viewModel（数组/非数组）
+			4.为父Dom元素绑定ViewModel的属性值
+				data-bind="source: ViewModel的属性名"
+			-->
+		<div data-template="div-template" data-bind="source: school">
+			<script id="div-template" type="text/x-kendo-template">
+				School: <span data-bind="text: this"></span>
+			</script>
+		</div>
+		
+		<ul data-template="ul-template" data-bind="source: person">
+		</ul>
+		<script id="ul-template" type="text/x-kendo-template">
+			<li>
+				gender: <span data-bind="text: gender"></span>
+			</li>
+		</script>
+		
+		<script>
+		var viewModel = kendo.observable({
+			school: "primarySchool",
+			person: [
+				{ id: 1, gender: "male" },
+				{ id: 2, gender: "female" }
+			]
+		});
+
+		kendo.bind($("ul"), viewModel);
+		kendo.bind($("div"), viewModel);
+		</script>
+		
+		<!--select元素：将ViewModel的属性数组值自动加载进子元素option中-->
+		<select id="当ViewModel属性值为简单类型数组时" data-bind="source: colors"></select>
+		<select id="当ViewModel属性值为复杂类型数组时" data-text-field="gender" data-value-field="id" data-bind="source: person"></select>
+		<script>
+		var viewModel2 = kendo.observable({
+			//简单类型数组
+			colors: [ "Red", "Green"],
+			//复杂类型数组：属性嵌套层数深
+			person: [
+				{ id: 1, gender: "male" },
+				{ id: 2, gender: "female" }
+			]
+		});
+		kendo.bind($("select"), viewModel2);
+		</script>
+	</body>
+</html>
