@@ -1,0 +1,72 @@
+<!--KendoUI单页面应用-->
+<html>
+    <head>
+        <title>Kendo UI Web</title>
+        <meta charset="utf-8">
+        <link href="styles/kendo.common.min.css" rel="stylesheet">
+        <link href="styles/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+    </head>
+    <body>
+		<!-- View可通过HTML或script模板两种方式创建。View可将其内容嵌套进父元素中-->
+		<div id="father"></div>
+		<script id="template" type="text/x-kendo-template">
+			I am <span data-bind="text: name"></span>
+		</script>
+
+		<script>
+			//viewModel
+			var person = kendo.observable({ name: "Free" });
+			
+			var view0 = new kendo.View(
+				"template", //这里要填script模板的id
+				{model: person} //可选传入model对象（viewModel类型），绑定并传值给View中的内容
+			);
+
+			var router = new kendo.Router({ 
+				//如果对应的路径不存在，触发routeMissing事件
+				routeMissing: function(e) { 
+								console.log("对应的路径不存在:",e.url) 
+							  },
+				//通过change方法截获页面切换事件，可调用preventDefault方法阻止页面切换
+				change: function(e) {
+								console.log("触发了页面切换到:",e.url);
+								//e.preventDefault();
+				}});
+
+			//route方法内的回调函数会自动调用
+			//支持参数传递:冒号后加参数名，如为可选参数用括号括起来
+			router.route("/person(/:id)(/:name)", function(id,name) {
+				console.log("回调函数已被调用，id为",id,"，名字为",name);
+				//使用render方法将View的内容嵌套并显示到指定的父元素中
+				view0.render("#father");
+			});
+
+			$(function() {
+				router.start();
+				//navigate用来做页面切换
+				router.navigate("/person/1/ann");
+				router.navigate("/person");
+				router.navigate("/person/ben");
+			});
+		</script>
+		
+		<script>
+			var view1 = new kendo.View("<span>替换填进placeholder中</span>", { hide: function() { console.log("第一个view被隐藏掉了"); }});
+			var view2 = new kendo.View("<span>覆盖原有view</span>");
+
+			//Layout继承自View，如Layout中含有placeholder占位元素（section），可以将View的内容替换填进placeholder中，实现Layout的嵌套。
+			var layout = new kendo.Layout("<header>Header</header><section id='content'></section><footer></footer>");
+
+			//从父元素顶端增加View，保留父元素中已有内容
+			$("#father").append(layout.render());
+			
+			//showIn方法实现Layout的嵌套：将View内容替换填进placeholder中
+			//showIn方法的参数为placeholder元素的id（这里的placeholder是section元素）、view变量
+			layout.showIn("#content", view1);
+			layout.showIn("#content", view2);
+		</script>
+		
+	</body>
+</html>
